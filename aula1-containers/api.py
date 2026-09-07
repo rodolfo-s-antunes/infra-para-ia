@@ -4,8 +4,8 @@ API de análise de sentimento — Aula 1 (Containers).
 Uma API mínima de "inferência": recebe uma frase em português e responde
 se o sentimento é positivo ou negativo, com o grau de confiança.
 
-Executar localmente:  uvicorn api:app --host 0.0.0.0 --port 8000
-Documentação:         http://localhost:8000/docs
+Executar localmente: uvicorn api:app --host 0.0.0.0 --port 8000
+Documentação:       http://localhost:8000/docs
 """
 
 import joblib
@@ -22,10 +22,8 @@ app = FastAPI(
 # requisição. Esse é o padrão de qualquer serviço de inferência.
 modelo = joblib.load("modelo.pkl")
 
-
 class Entrada(BaseModel):
     texto: str
-
 
 class Saida(BaseModel):
     sentimento: str
@@ -47,3 +45,9 @@ def prediz(entrada: Entrada):
         sentimento=modelo.classes_[indice],
         confianca=round(float(probabilidades[indice]), 4),
     )
+
+
+@app.get("/sobre")
+def sobre():
+    """Informações sobre a dupla."""
+    return {"alunos": ["Lyon"], "disciplina": "Infraestrutura Computacional para IA"}
