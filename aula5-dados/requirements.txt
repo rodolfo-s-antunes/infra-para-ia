@@ -1,0 +1,2 @@
+confluent-kafka>=2.4
+azure-storage-blob>=12.19
