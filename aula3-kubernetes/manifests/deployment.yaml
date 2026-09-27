@@ -13,11 +13,13 @@ kind: Deployment
 metadata:
   name: sentiment-api
 spec:
-  replicas: 3                     # o número que o ReplicaSet persegue para sempre
+  replicas: 4                     # o número que o ReplicaSet persegue para sempre
 
   selector:                       # como o Deployment reconhece os pods que são dele;
     matchLabels:                  # precisa bater com template.metadata.labels
       app: sentiment-api
+      dupla: Alan
+      turma: 2026-2
 
   strategy:
     type: RollingUpdate           # troca pod a pod (a alternativa, Recreate, derruba tudo)
@@ -29,6 +31,8 @@ spec:
     metadata:
       labels:
         app: sentiment-api        # todo pod nasce com esta label: é o que o Service procura
+        dupla: Alan                # identifica a dupla responsável por este deploy
+        turma: 2026-2               # identifica a turma que rodou essa aula
     spec:
       containers:
         - name: api               # o nome usado no kubectl set image ... api=...
@@ -48,14 +52,14 @@ spec:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 5    # carência para o modelo carregar
-            periodSeconds: 5          # pergunta a cada 5 s
-            failureThreshold: 3       # 3 falhas seguidas: sai dos endpoints do Service
+            initialDelaySeconds: 8     # esperamos um pouco mais, modelo demora pra carregar
+            periodSeconds: 8           # não precisa checar tão rápido
+            failureThreshold: 2        # 2 falhas já é suficiente pra tirar do ar
 
           livenessProbe:          # "ainda está vivo?"
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 15   # mais tolerante que a readiness, de propósito
-            periodSeconds: 10
-            failureThreshold: 3       # 3 falhas seguidas: o container é reiniciado
+            initialDelaySeconds: 20    # dá mais tempo de sobra antes de considerar problema
+            periodSeconds: 15          # checagem mais espaçada
+            failureThreshold: 4        # mais tolerante antes de reiniciar o container

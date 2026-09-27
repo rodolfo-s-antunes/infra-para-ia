@@ -1,6 +1,7 @@
 variable "dupla" {
   description = "Apelido da dupla, só letras minúsculas e dígitos, de 3 a 12 caracteres. Vai para as tags e para o endereço da API."
   type        = string
+  default     = "alan"
 
   validation {
     condition     = can(regex("^[a-z0-9]{3,12}$", var.dupla))
@@ -42,3 +43,15 @@ variable "memoria" {
   type        = number
   default     = 1
 }
+variable "node_vm_size" {
+  description = "Tamanho da VM do nó do AKS, igual ao usado nas Aulas 2 e 3."
+  type        = string
+  default     = "Standard_D2as_v7"
+}
+
+variable "node_count" {
+  description = "Número de nós do node pool padrão do AKS."
+  type        = number
+  default     = 1
+}
+

@@ -35,8 +35,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Lowercase owner
-        run: echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+      - name: Normalizar nome do owner
+        run: echo "OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Build e push da imagem
         uses: docker/build-push-action@v6
@@ -50,5 +50,10 @@ jobs:
           sbom: false
           tags: |
             ghcr.io/${{ env.OWNER_LC }}/sentiment-api:v1
+
+            ghcr.io/${{ env.OWNER_LC }}/sentiment-api:v2
             ghcr.io/${{ env.OWNER_LC }}/sentiment-api:latest
+
+            ghcr.io/${{ env.OWNER_LC }}/sentiment-api:latest
+
 

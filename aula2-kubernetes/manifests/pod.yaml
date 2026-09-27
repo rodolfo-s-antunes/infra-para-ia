@@ -10,12 +10,13 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: sentiment-api
+  namespace: alan
   labels:
-    app: sentiment-api      # é esta label que o Service procura (service.yaml)
-    dupla: SUBSTITUA
+    app: sentiment-api
+    dupla: alan
 spec:
   containers:
     - name: api
       image: ghcr.io/rodolfo-s-antunes/sentiment-api:v2
       ports:
-        - containerPort: 8000   # a porta em que o uvicorn escuta
+        - containerPort: 8000

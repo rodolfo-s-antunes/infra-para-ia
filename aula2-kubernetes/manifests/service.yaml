@@ -11,10 +11,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: sentiment-api
+  namespace: alan
 spec:
   type: LoadBalancer
   selector:
-    app: sentiment-api      # todo pod com esta label entra na lista de destinos
+    app: sentiment-api
   ports:
-    - port: 80              # a porta que o mundo chama (http://IP, sem :8000)
-      targetPort: 8000      # a porta do container (containerPort do pod.yaml)
+    - port: 80
+      targetPort: 8000

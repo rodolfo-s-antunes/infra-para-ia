@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: alan
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sentiment-api
+  namespace: alan
+  labels:
+    app: sentiment-api
+    dupla: alan
+spec:
+  containers:
+    - name: api
+      image: ghcr.io/rodolfo-s-antunes/sentiment-api:v2
+      ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentiment-api
+  namespace: alan
+spec:
+  type: LoadBalancer
+  selector:
+    app: sentiment-api
+  ports:
+    - port: 80
+      targetPort: 8000
